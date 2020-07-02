@@ -1,6 +1,7 @@
 ﻿
 namespace EecommerAPI.Controllers
 {
+    using BE;
     using BL;
     using System;
     using System.Collections.Generic;
@@ -31,6 +32,13 @@ namespace EecommerAPI.Controllers
             return Ok(returned);
         }
 
+        [HttpGet]
+        [Route("getSucByCommer")]
+        public IHttpActionResult getSucByCommer(int idCommer) {
+            proc = new Procedimientos();
+            List<Sucursal> returned = proc.getSucByCommer(idCommer);
+            return Ok(returned);
+        }
 
     }
 }

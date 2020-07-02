@@ -15,5 +15,14 @@ namespace BE
         inner join CategoriasComer cc on c.categoriaComer = cc.idCategoria
 		where cc.categoria = ";
 
+        public static string QGETPRODUCTBYCOMME= @"select SP.idProducto,SP.sucursal,SP.nombreProducto,SP.existencias,SP.descripcion,SP.fechaVencimiento,SP.ilustracion,SP.precio,SP.isPromocion
+        from SucursalProductos as SP
+        inner join SucursalesComercio as SC on SC.idSucursal = SP.sucursal
+        inner join Comercio as C on C.idComercio = SC.comercio
+        where C.idComercio =";
+
+        public static string QGETSUCBYCOMME = @"select * from SucursalesComercio
+        where comercio =";
+
     }
 }
