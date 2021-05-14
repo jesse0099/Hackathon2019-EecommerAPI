@@ -44,11 +44,42 @@ namespace EecommerAPI.Controllers
                 return Ok(customersFake);
             }
 
+            //Probar con FromBody y sin el
             [HttpPut]
             [Route("UpdateClientProfile")]
-            public IHttpActionResult UpdateClientProfile(ClientProfile newValue) {
-                proc = new Procedimientos();
-                return Ok(proc.UpdateClientProfile(newValue));
+            public IHttpActionResult UpdateClientProfile(PlainClientProfile newValue) {
+                //Prueba sin FromBody
+                try
+                {
+                    proc = new Procedimientos();
+
+                    ClientProfile newClientProfVal = new ClientProfile()
+                    {
+                        ID = newValue.ID
+                            ,
+                        PrimerNombre = newValue.PrimerNombre
+                            ,
+                        SegundoNombre = newValue.SegundoNombre
+                            ,
+                        Apellido = newValue.Apellido
+                            ,
+                        SegundoApellido = newValue.SegundoApellido
+                            ,
+                        Email = newValue.Email
+                            ,
+                        PP = Convert.FromBase64String(newValue.PP.ToString())
+                            ,
+                        Afiliado = newValue.Afiliado
+                    };
+
+                    return Ok(proc.UpdateClientProfile(newClientProfVal));
+                }
+                catch (Exception ex)
+                {
+
+                    return Ok(ex.Message);
+                }
+
             }
 
             [HttpPut]

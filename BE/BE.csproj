@@ -45,6 +45,7 @@
     <Compile Include="ClientProfile.cs" />
     <Compile Include="Comercio.cs" />
     <Compile Include="Constantes.cs" />
+    <Compile Include="PlainClientProfile.cs" />
     <Compile Include="Productos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sucursal.cs" />
