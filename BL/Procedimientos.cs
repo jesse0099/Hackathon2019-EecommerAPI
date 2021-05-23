@@ -4,14 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL
 {
     public class Procedimientos
     {
+        #region SearchController
+        public List<Categoria> GetCategories() {
+            return Dal.DbToList(new Categoria(), $"{Constantes.QGETCATEGORIES}");
+        }
+        #endregion
+
         #region Client
         public bool LoginClient(string user, string password)
         {

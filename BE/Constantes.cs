@@ -24,5 +24,6 @@ namespace BE
         public static string QGETSUCBYCOMME = @"select * from SucursalesComercio
         where comercio =";
 
+        public static string QGETCATEGORIES = @"Select * from ECOMMER.dbo.CategoriasComer";
     }
 }
