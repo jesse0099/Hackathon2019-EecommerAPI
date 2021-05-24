@@ -11,6 +11,11 @@ namespace BE
         public static string QGETALLCOMME = @"select c.idComercio,c.nombreComercio,c.logo,cc.categoria,c.estrellas,c.fechaAfiliacion,c.descripcion from Comercio as c
         inner join CategoriasComer cc on c.categoriaComer = cc.idCategoria";
 
+        public static string QGETCOMMEBYCAT = @"select c.idComercio,c.nombreComercio,c.logo,cc.categoria,c.estrellas,c.fechaAfiliacion,c.descripcion from Comercio as c
+        inner join CategoriasComer cc on c.categoriaComer = cc.idCategoria
+        where cc.idCategoria in ";
+
+
         public static string QGETCATBYID = @"select c.idComercio,c.nombreComercio,c.logo,cc.categoria,c.estrellas,c.fechaAfiliacion,c.descripcion from Comercio as c
         inner join CategoriasComer cc on c.categoriaComer = cc.idCategoria
 		where cc.categoria = ";
@@ -25,5 +30,6 @@ namespace BE
         where comercio =";
 
         public static string QGETCATEGORIES = @"Select * from ECOMMER.dbo.CategoriasComer";
+
     }
 }

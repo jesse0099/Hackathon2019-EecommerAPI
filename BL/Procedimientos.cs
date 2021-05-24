@@ -11,7 +11,12 @@ namespace BL
     {
         #region SearchController
         public List<Categoria> GetCategories() {
-            return Dal.DbToList(new Categoria(), $"{Constantes.QGETCATEGORIES}");
+            try
+            {
+                return Dal.DbToList(new Categoria(), $"{Constantes.QGETCATEGORIES}");
+            } catch (Exception e) {
+                throw e;
+            }
         }
         #endregion
 
@@ -49,7 +54,7 @@ namespace BL
 
         }
 
-        public ClientProfile GetClientProfile(string pass,string user)
+        public ClientProfile GetClientProfile(string pass, string user)
         {
             List<ClientProfile> returned = new List<ClientProfile>();
 
@@ -58,7 +63,7 @@ namespace BL
             inner join Cliente as c on c.idPersona = p.idPersona
             where c.userName = '{0}'
 			and c.userPassword ='{1}'
-            ", user,pass));
+            ", user, pass));
 
             if (returned.Count > 0)
                 return returned[0];
@@ -79,14 +84,14 @@ namespace BL
                                 email = @email,
                                 pp = @pp
                                 where idPersona = @idPersona;";
-            using (SqlCommand cmd = new SqlCommand(query,cnx)) {
-                cmd.Parameters.Add(new SqlParameter("@primerNombre",newValue.PrimerNombre));
-                cmd.Parameters.Add(new SqlParameter("@segundoNombre",newValue.SegundoNombre));
-                cmd.Parameters.Add(new SqlParameter("@apellido",newValue.Apellido));
-                cmd.Parameters.Add(new SqlParameter("@segundApell",newValue.SegundoApellido));
-                cmd.Parameters.Add(new SqlParameter("@email",newValue.Email));
-                cmd.Parameters.Add(new SqlParameter("@pp",newValue.PP));
-                cmd.Parameters.Add(new SqlParameter("@idPersona",newValue.ID));
+            using (SqlCommand cmd = new SqlCommand(query, cnx)) {
+                cmd.Parameters.Add(new SqlParameter("@primerNombre", newValue.PrimerNombre));
+                cmd.Parameters.Add(new SqlParameter("@segundoNombre", newValue.SegundoNombre));
+                cmd.Parameters.Add(new SqlParameter("@apellido", newValue.Apellido));
+                cmd.Parameters.Add(new SqlParameter("@segundApell", newValue.SegundoApellido));
+                cmd.Parameters.Add(new SqlParameter("@email", newValue.Email));
+                cmd.Parameters.Add(new SqlParameter("@pp", newValue.PP));
+                cmd.Parameters.Add(new SqlParameter("@idPersona", newValue.ID));
                 cmd.ExecuteNonQuery();
             }
             cnx.Close();
@@ -122,12 +127,21 @@ namespace BL
         #endregion
 
         #region Comercios
-        public List<Comercio> getAllComme() {
-          return Dal.DbToList(new Comercio(),Constantes.QGETALLCOMME);
+        public List<Comercio> GetByCats(List<int> objs) {
+            try
+            {
+                string query;                 
+                query = $"{Constantes.QGETCOMMEBYCAT}{IdsWrapper(objs)}";
+                return Dal.DbToList<Comercio>(new Comercio(), query);
+            } catch (Exception ex) {
+                throw ex;
+            }
         }
-
+        public List<Comercio> getAllComme() {
+            return Dal.DbToList(new Comercio(), Constantes.QGETALLCOMME);
+        }
         public List<Comercio> getByCat(string category) {
-            return Dal.DbToList(new Comercio(),$@"{Constantes.QGETCATBYID} '{category}'");
+            return Dal.DbToList(new Comercio(), $@"{Constantes.QGETCATBYID} '{category}'");
         }
         public List<Sucursal> getSucByCommer(int idCommer) {
             return Dal.DbToList(new Sucursal(), $@"{Constantes.QGETSUCBYCOMME} {idCommer}");
@@ -136,9 +150,30 @@ namespace BL
 
         #region Productos
         public List<Productos> getByCommer(int idComercio) {
-            return Dal.DbToList(new Productos(),$@"{Constantes.QGETPRODUCTBYCOMME} {idComercio}");
+            return Dal.DbToList(new Productos(), $@"{Constantes.QGETPRODUCTBYCOMME} {idComercio}");
         }
         #endregion
 
+
+        #region Utilidades
+        private string IdsWrapper(List<int> inid) {
+
+            try
+            {
+                var returned = "(";
+                for (int i = 0; i < inid.Count; i++)
+                {
+                    if ((i + 1) != inid.Count)
+                        returned = $"{returned}{Convert.ToString(inid[i])},";
+                    else
+                        returned = $"{returned}{Convert.ToString(inid[i])})";
+                }
+                return returned;
+            }catch (Exception ex){
+
+                throw ex;
+            }
+        }
+        #endregion
     }
 }

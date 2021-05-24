@@ -1,4 +1,5 @@
 ﻿using BL;
+using System;
 using System.Threading;
 using System.Web.Http;
 
@@ -13,9 +14,17 @@ namespace EecommerAPI.Controllers
         [HttpGet]
         [Route("Categories")]
         public IHttpActionResult GetCategories() {
-            proc = new Procedimientos();
-            Thread.Sleep(2000);
-            return Ok(proc.GetCategories());
+            try
+            {
+                proc = new Procedimientos();
+                Thread.Sleep(2000);
+                return Ok(proc.GetCategories());
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
         }
     }
 }

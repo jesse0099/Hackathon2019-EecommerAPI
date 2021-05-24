@@ -33,6 +33,23 @@ namespace EecommerAPI.Controllers
         }
 
         [HttpGet]
+        [Route("GetByCats")]
+        public IHttpActionResult GetByCats([FromUri]List<int> vals) {
+            if (vals == null)
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            try
+            {
+                proc = new Procedimientos();
+                return Ok(proc.GetByCats(vals));
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("getSucByCommer")]
         public IHttpActionResult getSucByCommer(int idCommer) {
             proc = new Procedimientos();
