@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace BL
 {
@@ -127,21 +128,53 @@ namespace BL
         #endregion
 
         #region Comercios
-        public List<Comercio> GetByCats(List<int> objs) {
+        public List<BE.Comercio> getAllCommerOrm() {
+            List<BE.Comercio> returned = new List<BE.Comercio>();
+            //Entidad de Uso
+            using (ECOMMEREntities bd = new ECOMMEREntities()) {
+                //Iniciando consulta
+                var comercios = bd.Comercios.ToList();
+                //Transformando a modelo base para no crear formatos
+                foreach (var com in comercios) {
+
+                    BE.Comercio tmp = new BE.Comercio() {
+                        idComercio = com.idComercio
+                        ,categoriaComer = com.categoriaComer.Value
+                        ,descripcion = com.descripcion
+                        ,estrellas = com.estrellas.GetValueOrDefault(defaultValue: 0)
+                        ,fechaAfiliacion = com.fechaAfiliacion.Value
+                        ,logo = com.logo
+                        ,nombreComercio = com.nombreComercio};
+
+                    foreach(var suc in com.SucursalesComercios) {
+                        tmp.Sucursals = new List<Sucursal>();
+                        tmp.Sucursals.Add(new Sucursal() {
+                            comercio = tmp.idComercio
+                            ,direccion = suc.direccion
+                            ,idSucursal = suc.idSucursal
+                            ,nombreSucursal = suc.nombreSucursal});
+
+                        returned.Add(tmp);
+                    }
+                }   
+            }
+            return returned;
+        }
+        public List<Enterprise> GetByCats(List<int> objs) {
             try
             {
                 string query;                 
                 query = $"{Constantes.QGETCOMMEBYCAT}{IdsWrapper(objs)}";
-                return Dal.DbToList<Comercio>(new Comercio(), query);
+                return Dal.DbToList<Enterprise>(new Enterprise(), query);
             } catch (Exception ex) {
                 throw ex;
             }
         }
-        public List<Comercio> getAllComme() {
-            return Dal.DbToList(new Comercio(), Constantes.QGETALLCOMME);
+        public List<Enterprise> getAllComme() {
+            return Dal.DbToList(new Enterprise(), Constantes.QGETALLCOMME);
         }
-        public List<Comercio> getByCat(string category) {
-            return Dal.DbToList(new Comercio(), $@"{Constantes.QGETCATBYID} '{category}'");
+        public List<Enterprise> getByCat(string category) {
+            return Dal.DbToList(new Enterprise(), $@"{Constantes.QGETCATBYID} '{category}'");
         }
         public List<Sucursal> getSucByCommer(int idCommer) {
             return Dal.DbToList(new Sucursal(), $@"{Constantes.QGETSUCBYCOMME} {idCommer}");

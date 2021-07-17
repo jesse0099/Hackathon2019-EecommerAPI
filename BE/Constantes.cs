@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BE
+﻿namespace BE
 {
     public class Constantes
     {
-        public static string QGETALLCOMME = @"select c.idComercio,c.nombreComercio,c.logo,cc.categoria,c.estrellas,c.fechaAfiliacion,c.descripcion from Comercio as c
-        inner join CategoriasComer cc on c.categoriaComer = cc.idCategoria";
+        public static string QGETALLCOMME = @"select c.idComercio,c.nombreComercio,c.logo,c.estrellas,c.fechaAfiliacion,c.descripcion from Comercio as c";
 
-        public static string QGETCOMMEBYCAT = @"select c.idComercio,c.nombreComercio,c.logo,cc.categoria,c.estrellas,c.fechaAfiliacion,c.descripcion from Comercio as c
+        public static string QGETCOMMEBYCAT = @"select c.idComercio,c.nombreComercio,c.logo,null,c.estrellas,c.fechaAfiliacion,c.descripcion from Comercio as c
         inner join CategoriasComer cc on c.categoriaComer = cc.idCategoria
         where cc.idCategoria in ";
 

@@ -45,6 +45,7 @@
     <Compile Include="ClientCredentials.cs" />
     <Compile Include="ClientProfile.cs" />
     <Compile Include="Comercio.cs" />
+    <Compile Include="Enterprise.cs" />
     <Compile Include="Constantes.cs" />
     <Compile Include="PlainClientProfile.cs" />
     <Compile Include="Productos.cs" />

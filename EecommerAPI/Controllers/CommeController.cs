@@ -5,9 +5,7 @@ namespace EecommerAPI.Controllers
     using BL;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
-    using System.Net.Http;
     using System.Web.Http;
 
     [AllowAnonymous]
@@ -20,16 +18,40 @@ namespace EecommerAPI.Controllers
         [Route("getAll")]
         public IHttpActionResult getAllComme() {
             proc  = new Procedimientos();
-            List <Comercio> returned = proc.getAllComme();
+            List <Enterprise> returned = proc.getAllComme();
             return Ok(returned);
+        }
+
+        [HttpGet]
+        [Route("GetAllOrm")]
+        public IHttpActionResult GetAllCommer() {
+            try
+            {
+                proc = new Procedimientos();
+                return Ok(proc.getAllCommerOrm());
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex);
+            }
+
         }
 
         [HttpGet]
         [Route("getByCat")]
         public IHttpActionResult getByCat(string category) {
-            proc = new Procedimientos();
-            List<Comercio> returned = proc.getByCat(category);
-            return Ok(returned);
+            try
+            {
+                proc = new Procedimientos();
+                List<Enterprise> returned = proc.getByCat(category);
+                return Ok(returned);
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
         }
 
         [HttpGet]

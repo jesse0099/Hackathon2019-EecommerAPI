@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ECOMMERModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comercio">
+          <Key>
+            <PropertyRef Name="idComercio" />
+          </Key>
+          <Property Name="idComercio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreComercio" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="logo" Type="image" />
+          <Property Name="categoriaComer" Type="int" />
+          <Property Name="estrellas" Type="float" />
+          <Property Name="fechaAfiliacion" Type="datetime" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="SucursalesComercio">
+          <Key>
+            <PropertyRef Name="idSucursal" />
+          </Key>
+          <Property Name="idSucursal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="comercio" Type="int" />
+          <Property Name="direccion" Type="nvarchar" MaxLength="200" />
+          <Property Name="nombreSucursal" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK__Sucursale__comer__5CD6CB2B">
+          <End Role="Comercio" Type="Self.Comercio" Multiplicity="0..1" />
+          <End Role="SucursalesComercio" Type="Self.SucursalesComercio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comercio">
+              <PropertyRef Name="idComercio" />
+            </Principal>
+            <Dependent Role="SucursalesComercio">
+              <PropertyRef Name="comercio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ECOMMERModelStoreContainer">
+          <EntitySet Name="Comercio" EntityType="Self.Comercio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SucursalesComercio" EntityType="Self.SucursalesComercio" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Sucursale__comer__5CD6CB2B" Association="Self.FK__Sucursale__comer__5CD6CB2B">
+            <End Role="Comercio" EntitySet="Comercio" />
+            <End Role="SucursalesComercio" EntitySet="SucursalesComercio" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ECOMMERModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Comercio">
+          <Key>
+            <PropertyRef Name="idComercio" />
+          </Key>
+          <Property Name="idComercio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreComercio" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="logo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="categoriaComer" Type="Int32" />
+          <Property Name="estrellas" Type="Double" />
+          <Property Name="fechaAfiliacion" Type="DateTime" Precision="3" />
+          <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SucursalesComercios" Relationship="Self.FK__Sucursale__comer__5CD6CB2B" FromRole="Comercio" ToRole="SucursalesComercio" />
+        </EntityType>
+        <EntityType Name="SucursalesComercio">
+          <Key>
+            <PropertyRef Name="idSucursal" />
+          </Key>
+          <Property Name="idSucursal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="comercio" Type="Int32" />
+          <Property Name="direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="nombreSucursal" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Comercio1" Relationship="Self.FK__Sucursale__comer__5CD6CB2B" FromRole="SucursalesComercio" ToRole="Comercio" />
+        </EntityType>
+        <Association Name="FK__Sucursale__comer__5CD6CB2B">
+          <End Role="Comercio" Type="Self.Comercio" Multiplicity="0..1" />
+          <End Role="SucursalesComercio" Type="Self.SucursalesComercio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comercio">
+              <PropertyRef Name="idComercio" />
+            </Principal>
+            <Dependent Role="SucursalesComercio">
+              <PropertyRef Name="comercio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ECOMMEREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Comercios" EntityType="Self.Comercio" />
+          <EntitySet Name="SucursalesComercios" EntityType="Self.SucursalesComercio" />
+          <AssociationSet Name="FK__Sucursale__comer__5CD6CB2B" Association="Self.FK__Sucursale__comer__5CD6CB2B">
+            <End Role="Comercio" EntitySet="Comercios" />
+            <End Role="SucursalesComercio" EntitySet="SucursalesComercios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ECOMMERModelStoreContainer" CdmEntityContainer="ECOMMEREntities">
+          <EntitySetMapping Name="Comercios">
+            <EntityTypeMapping TypeName="ECOMMERModel.Comercio">
+              <MappingFragment StoreEntitySet="Comercio">
+                <ScalarProperty Name="idComercio" ColumnName="idComercio" />
+                <ScalarProperty Name="nombreComercio" ColumnName="nombreComercio" />
+                <ScalarProperty Name="logo" ColumnName="logo" />
+                <ScalarProperty Name="categoriaComer" ColumnName="categoriaComer" />
+                <ScalarProperty Name="estrellas" ColumnName="estrellas" />
+                <ScalarProperty Name="fechaAfiliacion" ColumnName="fechaAfiliacion" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SucursalesComercios">
+            <EntityTypeMapping TypeName="ECOMMERModel.SucursalesComercio">
+              <MappingFragment StoreEntitySet="SucursalesComercio">
+                <ScalarProperty Name="idSucursal" ColumnName="idSucursal" />
+                <ScalarProperty Name="comercio" ColumnName="comercio" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="nombreSucursal" ColumnName="nombreSucursal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
